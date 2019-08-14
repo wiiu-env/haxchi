@@ -16,7 +16,7 @@ make
 ```
 
 ## Usage
-Start the resulting `haxchi_installer.rpx` using the {homebrew launcher](https://github.com/wiiu-env/homebrew_launcher)
+Start the resulting `haxchi_installer.rpx` using the [homebrew launcher](https://github.com/wiiu-env/homebrew_launcher)
 
 ## credit
 FIX94 and orboditilt.
