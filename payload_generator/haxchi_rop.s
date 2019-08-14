@@ -118,8 +118,10 @@ rop_hook_start:
 .arm.big
 
 rop_start:
-	; quit out of GX2 so we can re-use it in core 0
+	; do hachihachi cleanups so we can use everything safely
+	call_func HACHI_APPLICATION_SHUTDOWNANDDESTROY, HACHI_APPLICATION_PTR, 0, 0, 0
 	call_func NERD_FASTWIIU_SHUTDOWN, 0, 0, 0, 0
+	call_func CORE_SHUTDOWN, 0, 0, 0, 0
 
 	; set up hbl_loader in core 0
 	call_func_6args NERD_CREATETHREAD, NERD_THREAD0OBJECT, LWZ_R0xAFC_MTLR_R0_ADDI_R1xAF8_BLR, 0x1007E7A8, thread0_param, 0x0, 0x0
@@ -198,13 +200,6 @@ rop_start:
 	call_func NERD_STARTTHREAD, NERD_THREAD0OBJECT, 0x0, 0x0, 0x0
 	call_func NERD_JOINTHREAD, NERD_THREAD0OBJECT, 0x0, 0x0, 0x0
 
-	; clean up the rest of hachihachi
-	call_func HACHI_APPLICATION_SHUTDOWNANDDESTROY, HACHI_APPLICATION_PTR, 0, 0, 0
-	call_func CORE_SHUTDOWN, 0, 0, 0, 0
-
-	; on exit we want to go into mii studio directly
-	call_func _SYSLaunchMiiStudio, 0x0, 0x0, 0x0, 0x0
-
 	; prepare system for foreground release
 	call_func OSSAVESDONE_READYTORELEASE, 0, 0, 0, 0
 
@@ -219,7 +214,7 @@ rop_start:
 	call_func OSRELEASEFOREGROUND, 0, 0, 0, 0
 
 	; launch mii studio app
-	.word _EXIT
+	.word _START_EXIT
 
 	core0rop:
 		; switch codegen to RW
@@ -227,11 +222,11 @@ rop_start:
 
 		; memcpy code
 		call_func MEMCPY, HBL_LOADER_ADR, hbl_loader, hbl_loader_end - hbl_loader, 0x0
-		call_func DC_FLUSHRANGE, HBL_LOADER_ADR, 0xC000, 0x0, 0x0
+		call_func DC_FLUSHRANGE, HBL_LOADER_ADR, hbl_loader_end - hbl_loader, 0x0, 0x0
 
 		; switch codegen to RX
 		call_func OSCODEGEN_SWITCHSECMODE, 0x1, 0x0, 0x0, 0x0
-		call_func IC_INVALIDATERANGE, HBL_LOADER_ADR, 0xC000, 0x0, 0x0
+		call_func IC_INVALIDATERANGE, HBL_LOADER_ADR, hbl_loader_end - hbl_loader, 0x0, 0x0
 
 		; execute option_select in codegen
 		.word HBL_LOADER_ADR

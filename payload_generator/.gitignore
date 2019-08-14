@@ -1,2 +1,5 @@
-haxchi_installer/data/
+*.nds
+*.zip
+*.bin
+defines.s
 haxchi_installer/src/zipList.h
