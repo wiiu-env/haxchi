@@ -1,6 +1,6 @@
 .PHONY := all code550.bin
 
-ifeq ($(Windows_NT), 1)
+ifeq ($(OS),Windows_NT)
 	ZIP = zip/zip.exe
 else
 	ZIP = zip
