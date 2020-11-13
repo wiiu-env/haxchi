@@ -1,7 +1,7 @@
 .PHONY := all code550.bin
 
-ifeq ($(Windows_NT), 1)
-	ZIP = zip/zip.exe
+ifeq ($(OS),Windows_NT)
+	ZIP = cscript.exe //Nologo zip/zip.vbs
 else
 	ZIP = zip
 endif

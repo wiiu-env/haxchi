@@ -23,6 +23,7 @@ SOURCES		:=	src \
 				src/utils
 DATA		:=	data
 INCLUDES	:=	src
+				$(WUT_ROOT)\usr
 
 #-------------------------------------------------------------------------------
 # options for code generation
@@ -43,7 +44,7 @@ LIBS	:=  -lxml2 -lz -liosuhax -lwut
 # list of directories containing libraries, this must be the top level
 # containing include and lib
 #-------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(WUT_ROOT)
+LIBDIRS	:= $(PORTLIBS) $(WUT_ROOT) $(WUT_ROOT)\usr
 
 #-------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

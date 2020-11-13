@@ -3,7 +3,7 @@
 # Automatic resource file list generation
 # Created by Dimok
 
-outFile="./src/ziplist.h"
+outFile="./src/zipList.h"
 count_old=$(cat $outFile 2>/dev/null | tr -d '\n\n' | sed 's/[^0-9]*\([0-9]*\).*/\1/')
 
 count=0
@@ -29,7 +29,7 @@ fi
 if [ "$count_old" != "$count" ] || [ ! -f $outFile ]
 then
 
-echo "Generating filelist.h for $count files." >&2
+echo "Generating zipList.h for $count files." >&2
 cat <<EOF > $outFile
 /****************************************************************************
  * This file is generated automatically.
@@ -47,8 +47,8 @@ for i in ${files[@]}
 do
 	filename=${i%.*}
 	extension=${i##*.}
-	echo 'extern const unsigned char '$filename'_'$extension'[];' >> $outFile
-	echo 'extern const unsigned int '$filename'_'$extension'_size;' >> $outFile
+	echo 'const unsigned char '$filename'__'$extension'[];' >> $outFile
+	echo 'const unsigned int '$filename'__'$extension'_size;' >> $outFile
 	echo '' >> $outFile
 done
 
